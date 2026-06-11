@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Musica {
+  id       Int     @id @default(autoincrement())
+  titulo   String
+  artista  String
+  genero   String
+  ano      Int
+  favorita Boolean @default(false)
+
+  @@map("musica")
+}
