@@ -1,65 +1,48 @@
-# 🎵 Music Prisma Backend
+# Music Prisma Backend
 
-API backend para gerenciamento de músicas, desenvolvida com **Node.js**, **Express** e **Prisma ORM**.
+Backend REST API for managing music records, built with **Node.js**, **Express**, **Prisma ORM** and **MariaDB/MySQL**.
 
-O projeto foi criado para praticar conceitos de desenvolvimento backend, como criação de APIs REST, organização de rotas, integração com banco de dados, uso de ORM e separação entre frontend simples e camada backend.
+This project was developed as part of my backend learning path, with focus on REST API design, database integration, request validation, environment variables and basic frontend-backend communication.
 
-![Node.js](https://img.shields.io/badge/Node.js-green?style=for-the-badge&logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/Express.js-black?style=for-the-badge&logo=express&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript&logoColor=black)
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue?style=for-the-badge)
-![Projeto](https://img.shields.io/badge/tipo-backend%20api-purple?style=for-the-badge)
+## Project Goals
 
----
+The main goal of this project is to practice backend development concepts such as:
 
-## 🎯 Objetivo
+* Creating a REST API with Node.js and Express
+* Connecting an API to a relational database
+* Using Prisma ORM to manage database operations
+* Implementing CRUD operations
+* Validating request data
+* Handling common API errors
+* Separating backend logic from a simple frontend interface
+* Organizing a project for GitHub portfolio presentation
 
-Construir uma aplicação backend para cadastro e gerenciamento de músicas, utilizando uma API REST conectada a um banco de dados por meio do Prisma.
+## Features
 
-Este projeto faz parte da minha evolução como desenvolvedor backend, com foco em:
+* List all music records
+* Get a music record by ID
+* Create a new music record
+* Update an existing music record
+* Delete a music record
+* Mark/unmark a music as favorite
+* Basic input validation
+* JSON API responses
+* Simple frontend interface to consume the API
 
-- Criação de APIs com Node.js e Express
-- Integração com banco de dados usando Prisma
-- Organização de estrutura backend
-- Manipulação de dados via requisições HTTP
-- Separação entre backend e frontend
-- Uso de variáveis de ambiente
-- Boas práticas com Git e GitHub
+## Technologies Used
 
----
+* Node.js
+* Express.js
+* Prisma ORM
+* MariaDB / MySQL
+* JavaScript
+* HTML5
+* CSS3
+* Git and GitHub
 
-## 📌 Funcionalidades
+## Project Structure
 
-| Funcionalidade | Descrição |
-|---|---|
-| Cadastro de músicas | Permite registrar músicas no sistema |
-| Listagem de músicas | Retorna as músicas cadastradas |
-| Atualização de registros | Permite alterar informações de músicas |
-| Remoção de registros | Permite excluir músicas cadastradas |
-| Integração com banco de dados | Utiliza Prisma ORM para comunicação com o banco |
-| Frontend simples | Interface básica para consumir a API |
-
-> As funcionalidades podem variar conforme a versão atual do projeto.
-
----
-
-## 🛠️ Tecnologias utilizadas
-
-- **Node.js**
-- **Express.js**
-- **Prisma ORM**
-- **JavaScript**
-- **HTML5**
-- **CSS3**
-- **Banco de dados relacional**
-- **Git e GitHub**
-
----
-
-## 🗂️ Estrutura do projeto
-
-```text
+```txt
 music-prisma-backend/
 ├── frontend/
 │   ├── index.html
@@ -79,167 +62,201 @@ music-prisma-backend/
 └── LICENSE
 ```
 
----
+## Database Model
 
-## ⚠️ Arquivos que não devem ser enviados ao GitHub
+The project uses a `Musica` model with the following fields:
 
-Antes de subir o projeto, confirme que estes arquivos e pastas **não** estão sendo enviados:
-
-```text
-node_modules/
-.env
+```txt
+id        Integer
+titulo    String
+artista   String
+genero    String
+ano       Integer
+favorita  Boolean
 ```
 
-O arquivo `.env` pode conter dados sensíveis, como URL do banco de dados, senhas ou tokens. Por isso, ele deve ficar apenas no seu computador.
+## API Endpoints
 
-No GitHub, envie somente o arquivo `.env.example`, que serve como modelo para outras pessoas configurarem o projeto.
+Base URL for local development:
 
----
+```txt
+http://localhost:3000
+```
 
-## 🔐 Variáveis de ambiente
+| Method | Endpoint                    | Description               |
+| ------ | --------------------------- | ------------------------- |
+| GET    | `/api/musicas`              | List all music records    |
+| GET    | `/api/musicas/:id`          | Get a music record by ID  |
+| POST   | `/api/musicas`              | Create a new music record |
+| PUT    | `/api/musicas/:id`          | Update a music record     |
+| PATCH  | `/api/musicas/:id/favorita` | Toggle favorite status    |
+| DELETE | `/api/musicas/:id`          | Delete a music record     |
 
-Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`.
+## Example Request
 
-Exemplo:
+### Create a new music record
+
+```http
+POST /api/musicas
+Content-Type: application/json
+```
+
+```json
+{
+  "titulo": "Imagine",
+  "artista": "John Lennon",
+  "genero": "rock",
+  "ano": 1971
+}
+```
+
+## Example Response
+
+```json
+{
+  "id": 1,
+  "titulo": "Imagine",
+  "artista": "John Lennon",
+  "genero": "rock",
+  "ano": 1971,
+  "favorita": false
+}
+```
+
+## Validation Rules
+
+The API validates the input before creating or updating a music record.
+
+Current validation includes:
+
+* `titulo` must be between 2 and 200 characters
+* `artista` is required and must have up to 200 characters
+* `genero` must be one of the accepted values
+* `ano` cannot be greater than the current year
+
+Accepted genres:
+
+```txt
+pop, rock, hip-hop, eletronico, jazz, classico, outro
+```
+
+## Environment Variables
+
+Create a `.env` file in the root folder using `.env.example` as reference.
+
+Example:
 
 ```env
-DATABASE_URL="sua_url_do_banco_aqui"
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_USER=root
+DATABASE_PASSWORD=your_password
+DATABASE_NAME=music_database
 PORT=3000
 ```
 
----
+Important: never commit your real `.env` file to GitHub.
 
-## ▶️ Como executar o projeto
+## How to Run Locally
 
-Clone o repositório:
+Clone the repository:
 
 ```bash
 git clone https://github.com/luancabral1/music-prisma-backend.git
 ```
 
-Acesse a pasta do projeto:
+Access the project folder:
 
 ```bash
 cd music-prisma-backend
 ```
 
-Instale as dependências:
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-Crie o arquivo `.env` com base no `.env.example`:
+Create the `.env` file:
 
 ```bash
 cp .env.example .env
 ```
 
-Gere o Prisma Client:
+Generate Prisma Client:
 
 ```bash
 npx prisma generate
 ```
 
-Execute as migrações do banco de dados, se o projeto utilizar migrations:
+Run database migrations:
 
 ```bash
 npx prisma migrate dev
 ```
 
-Inicie o servidor:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Caso o projeto não tenha script `dev`, execute:
+Or start with Node:
 
 ```bash
-node server.js
+npm start
 ```
 
----
+The server should run on:
 
-## 🌐 Frontend
-
-O projeto possui uma interface simples localizada na pasta `frontend/`.
-
-Após iniciar o backend, abra o arquivo abaixo no navegador:
-
-```text
-frontend/index.html
-```
-
-A interface pode ser usada para testar o consumo da API localmente.
-
----
-
-## 🧪 Testando a API
-
-Você pode testar as rotas da API usando:
-
-- Navegador
-- Insomnia
-- Postman
-- Thunder Client
-- Frontend do próprio projeto
-
-Exemplo de URL local:
-
-```text
+```txt
 http://localhost:3000
 ```
 
-> Ajuste a porta conforme a configuração utilizada no projeto.
+## Frontend
 
----
+This project includes a simple frontend inside the `frontend/` folder.
 
-## 🧠 O que aprendi
+After starting the backend, open the frontend in the browser to test the API locally.
 
-Durante o desenvolvimento deste projeto, pratiquei conceitos importantes de backend:
+## What I Practiced
 
-- Criação de servidor com Express
-- Definição de rotas HTTP
-- Manipulação de requisições e respostas
-- Integração com banco de dados usando Prisma
-- Criação e organização do `schema.prisma`
-- Uso de variáveis de ambiente
-- Separação entre backend e frontend
-- Organização de projeto para publicação no GitHub
+Through this project, I practiced:
 
----
+* REST API development
+* Express.js routing
+* JSON request and response handling
+* Database integration with Prisma
+* Relational database modeling
+* Environment variable configuration
+* Basic validation and error handling
+* Simple frontend-backend integration
+* GitHub project documentation
 
-## 🚀 Próximos passos
+## Future Improvements
 
-Algumas melhorias que podem ser adicionadas futuramente:
+Possible improvements for future versions:
 
-- Melhorar a organização do backend em pastas como `routes`, `controllers` e `services`
-- Adicionar validação de dados nas requisições
-- Criar tratamento de erros mais completo
-- Documentar endpoints com Swagger
-- Adicionar testes automatizados
-- Implementar paginação e filtros
-- Criar deploy da API
-- Conectar o frontend a uma versão publicada do backend
+* Add Swagger/OpenAPI documentation
+* Improve project structure with `routes`, `controllers` and `services`
+* Add automated tests
+* Add pagination and filters
+* Add Docker support
+* Improve frontend interface
+* Deploy the API
+* Add authentication
 
----
+## Status
 
-## 🧾 Status do projeto
+Project in development.
 
-Projeto em desenvolvimento e aberto para melhorias.
+## Author
 
----
+Developed by **Luan Cabral**.
 
-## 👤 Autor
+* GitHub: @luancabral1
+* LinkedIn: Luan Cabral
 
-Desenvolvido por **Luan Cabral**.
+## License
 
-- GitHub: [@luancabral1](https://github.com/luancabral1)
-- LinkedIn: [Luan Cabral](https://www.linkedin.com/in/luan-cabral-307784378/)
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is licensed under the MIT License.
