@@ -1,15 +1,23 @@
 {
-  "name": "musicas",
+  "name": "music-prisma-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "REST API for music management built with Node.js, Express, Prisma ORM and MariaDB.",
+  "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "nodejs",
+    "express",
+    "prisma",
+    "mariadb",
+    "mysql",
+    "rest-api",
+    "backend",
+    "crud"
+  ],
+  "author": "Luan Cabral",
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
